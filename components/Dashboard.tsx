@@ -75,6 +75,9 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
           <p className="text-xs text-subtle">Strava · Apple Health · Whoop · Garmin</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          <a href="/design" className="text-xs text-subtle underline hover:text-foreground">
+            Design preview →
+          </a>
           <StravaConnect connected={stravaConnected} error={stravaError} />
           <RefreshBar generatedAt={data.generatedAt} refreshing={refreshing} onRefresh={runRefresh} />
         </div>
