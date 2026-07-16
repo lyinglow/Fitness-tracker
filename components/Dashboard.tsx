@@ -11,6 +11,7 @@ import { MetricTile } from "./MetricTile";
 import { RecoveryCard } from "./RecoveryCard";
 import { RefreshBar } from "./RefreshBar";
 import { StatusDot } from "./StatusDot";
+import { StepsTrend } from "./StepsTrend";
 import { StravaConnect } from "./StravaConnect";
 import { WeeklyVolumeChart } from "./WeeklyVolumeChart";
 
@@ -114,10 +115,13 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
           <WeeklyVolumeChart activities={activities} />
         </div>
         <div className="lg:col-span-1">
-          <IntensityDistribution readings={data.trainingLoad.data} />
+          <StepsTrend days={days} steps={data.steps.data} />
         </div>
         <div className="lg:col-span-2">
-          <ActivityHistoryList days={days} activities={activities} />
+          <IntensityDistribution readings={data.trainingLoad.data} />
+        </div>
+        <div className="lg:col-span-3">
+          <ActivityHistoryList days={days} activities={activities} steps={data.steps.data} />
         </div>
       </section>
     </div>

@@ -1,18 +1,27 @@
 import { ACTIVITY_COLOR, ACTIVITY_LABEL } from "@/lib/colors";
 import { formatDayLabel, formatDistance, formatDuration, formatWeekday, isToday } from "@/lib/format";
-import type { Activity } from "@/lib/types";
+import type { Activity, StepsReading } from "@/lib/types";
 
-export function ActivityHistoryList({ days, activities }: { days: string[]; activities: Activity[] }) {
+export function ActivityHistoryList({
+  days,
+  activities,
+  steps = [],
+}: {
+  days: string[];
+  activities: Activity[];
+  steps?: StepsReading[];
+}) {
   const byDay = [...days].reverse().map((date) => ({
     date,
     items: activities.filter((a) => a.date === date),
+    steps: steps.find((s) => s.date === date)?.steps,
   }));
 
   return (
     <div className="flex h-full flex-col rounded-lg border border-border bg-surface p-3">
       <h2 className="mb-2 text-sm font-semibold">Activity history</h2>
       <ul className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto">
-        {byDay.map(({ date, items }) => (
+        {byDay.map(({ date, items, steps: daySteps }) => (
           <li key={date} className="flex items-start gap-2 border-b border-border/60 pb-1.5 last:border-0">
             <div className="w-14 shrink-0 pt-0.5 text-xs text-subtle">
               <div className={isToday(date) ? "font-semibold text-foreground" : undefined}>
@@ -40,6 +49,9 @@ export function ActivityHistoryList({ days, activities }: { days: string[]; acti
                 ))
               )}
             </div>
+            {daySteps != null && (
+              <span className="shrink-0 pt-0.5 text-xs text-subtle whitespace-nowrap">{daySteps.toLocaleString()} steps</span>
+            )}
           </li>
         ))}
       </ul>
