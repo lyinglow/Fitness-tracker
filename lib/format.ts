@@ -21,15 +21,3 @@ export function formatDistance(km: number | null): string {
   if (km === null) return "—";
   return `${km.toFixed(1)} km`;
 }
-
-export function formatWeekday(dateStr: string): string {
-  return new Date(`${dateStr}T00:00:00`).toLocaleDateString(undefined, { weekday: "short" });
-}
-
-export function formatDayLabel(dateStr: string): string {
-  return new Date(`${dateStr}T00:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric" });
-}
-
-export function isToday(dateStr: string, reference: Date = new Date()): boolean {
-  return dateStr === reference.toISOString().slice(0, 10);
-}
