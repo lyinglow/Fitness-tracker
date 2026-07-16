@@ -22,6 +22,11 @@ export interface RecoveryReading {
   sleepScore: number | null; // 0-100
 }
 
+export interface StepsReading {
+  date: string; // yyyy-mm-dd
+  steps: number;
+}
+
 export type IntensityLevel = "rest" | "low" | "moderate" | "high" | "max";
 
 export interface TrainingLoadReading {
@@ -43,6 +48,7 @@ export interface SourceState<T> {
 export interface DashboardData {
   activities: SourceState<Activity[]>; // Strava rides/runs + Apple Health activity data
   recovery: SourceState<RecoveryReading[]>; // Whoop
-  trainingLoad: SourceState<TrainingLoadReading[]>; // Garmin
+  trainingLoad: SourceState<TrainingLoadReading[]>; // Whoop strain
+  steps: SourceState<StepsReading[]>; // Apple Health (synced from Garmin), via the /api/webhooks/apple-health route
   generatedAt: string;
 }

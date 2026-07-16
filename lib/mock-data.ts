@@ -4,6 +4,7 @@ import type {
   DashboardData,
   IntensityLevel,
   RecoveryReading,
+  StepsReading,
   TrainingLoadReading,
 } from "./types";
 
@@ -139,6 +140,15 @@ function mockTrainingLoadForDay(date: string): TrainingLoadReading {
   };
 }
 
+export function mockStepsReadings(days: string[]): StepsReading[] {
+  return days.map(mockStepsForDay);
+}
+
+function mockStepsForDay(date: string): StepsReading {
+  const rng = rngFor(`steps:${date}`);
+  return { date, steps: Math.round(randRange(rng, 2500, 14000)) };
+}
+
 /** Builds a full mock dashboard payload for the 7 days ending at `reference`. */
 export function buildMockDashboard(reference: Date = new Date()): DashboardData {
   const days = lastNDays(reference, 7);
@@ -158,6 +168,11 @@ export function buildMockDashboard(reference: Date = new Date()): DashboardData 
     trainingLoad: {
       status: "ok",
       data: days.map(mockTrainingLoadForDay),
+      lastUpdated: now,
+    },
+    steps: {
+      status: "ok",
+      data: days.map(mockStepsForDay),
       lastUpdated: now,
     },
     generatedAt: now,

@@ -66,13 +66,14 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
   const totalMinutes = activities.reduce((sum, a) => sum + a.durationMin, 0);
   const latestRecovery = data.recovery.data.at(-1);
   const latestLoad = data.trainingLoad.data.at(-1);
+  const latestSteps = data.steps.data.at(-1);
 
   return (
     <div className="mx-auto flex h-full max-w-6xl flex-col gap-3 p-3 sm:p-4">
       <header className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h1 className="text-lg font-semibold">Fitness Dashboard</h1>
-          <p className="text-xs text-subtle">Strava · Apple Health · Whoop · Garmin</p>
+          <p className="text-xs text-subtle">Strava · Whoop · Apple Health (steps)</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <a href="/design" className="text-xs text-subtle underline hover:text-foreground">
@@ -87,9 +88,10 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
         <StatusDot status={data.activities.status} lastUpdated={data.activities.lastUpdated} error={data.activities.error} />
         <StatusDot status={data.recovery.status} lastUpdated={data.recovery.lastUpdated} error={data.recovery.error} />
         <StatusDot status={data.trainingLoad.status} lastUpdated={data.trainingLoad.lastUpdated} error={data.trainingLoad.error} />
+        <StatusDot status={data.steps.status} lastUpdated={data.steps.lastUpdated} error={data.steps.error} />
       </div>
 
-      <section className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <section className="grid grid-cols-2 gap-2 sm:grid-cols-5">
         <MetricTile label="Weekly distance" value={totalDistanceKm.toFixed(1)} unit="km" />
         <MetricTile label="Weekly training time" value={formatDuration(totalMinutes)} />
         <MetricTile label="Activities this week" value={String(activities.length)} />
@@ -97,6 +99,10 @@ export function Dashboard({ initialData }: { initialData: DashboardData }) {
           label="Today's training load"
           value={latestLoad?.load != null ? String(latestLoad.load) : "—"}
           sublabel={latestLoad ? latestLoad.intensity : undefined}
+        />
+        <MetricTile
+          label="Today's steps"
+          value={latestSteps?.steps != null ? latestSteps.steps.toLocaleString() : "—"}
         />
       </section>
 
